@@ -1,0 +1,30 @@
+{
+  "name": "koa-static-serve",
+  "description": "static serve middlware for koa",
+  "version": "0.0.1",
+  "author": {
+    "name": "vicanso 小墨鱼",
+    "email": "vicansocanbico@gmail.com"
+  },
+  "keywords": [
+    "koa",
+    "connection limit",
+    "middlware"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vicanso/koa-static-serve.git"
+  },
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "koa": "^0.21.0",
+    "koa-router": "^5.1.2"
+  },
+  "readme": "static serve middlware for koa",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "koa-static": "^1.4.9",
+    "moment": "^2.10.3"
+  }
+}
