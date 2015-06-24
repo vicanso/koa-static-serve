@@ -18,6 +18,10 @@
   },
   "readmeFilename": "README.md",
   "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-istanbul": "^0.10.0",
+    "gulp-jshint": "^1.11.0",
+    "gulp-mocha": "^2.1.2",
     "koa": "^0.21.0",
     "koa-router": "^5.1.2"
   },
