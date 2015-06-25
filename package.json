@@ -11,6 +11,7 @@
     "connection limit",
     "middlware"
   ],
+  "main" : "./lib/serve.js",
   "license": "MIT",
   "repository": {
     "type": "git",
