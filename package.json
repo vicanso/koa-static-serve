@@ -1,7 +1,7 @@
 {
   "name": "koa-static-serve",
   "description": "static serve middlware for koa",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": {
     "name": "vicanso 小墨鱼",
     "email": "vicansocanbico@gmail.com"
@@ -11,7 +11,7 @@
     "connection limit",
     "middlware"
   ],
-  "main" : "./lib/serve.js",
+  "main": "./lib/serve.js",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -29,7 +29,6 @@
   "readme": "static serve middlware for koa",
   "dependencies": {
     "debug": "^2.2.0",
-    "koa-static": "^1.4.9",
-    "moment": "^2.10.3"
+    "koa-static": "^1.5.2"
   }
 }
