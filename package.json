@@ -30,6 +30,7 @@
   "readme": "static serve middlware for koa",
   "dependencies": {
     "debug": "^2.2.0",
-    "send": "^0.13.0"
+    "etag": "^1.7.0",
+    "mime": "^1.3.4"
   }
 }

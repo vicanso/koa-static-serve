@@ -4,19 +4,27 @@ const path = require('path');
 const request = require('supertest');
 const assets = path.join(__dirname, '../assets');
 const serve = require('../lib/serve');
+const assert = require('assert');
 
 describe('serve', function() {
 	it('should serve js file successful', function(done) {
 		const app = new Koa();
 
-		app.use(serve(assets, {}));
+		app.use(serve(assets, {
+			maxAge: 1000,
+			headers: {
+				Vary: 'Accept-Encoding'
+			}
+		}));
 		request(app.listen())
 			.get('/test.js')
 			.end(function(err, res) {
 				if (err) {
 					done(err);
 				} else {
-					console.dir(res.headers);
+					assert.equal(res.status, 200);
+					assert(res.headers.etag);
+					done();
 				}
 			});
 	});
