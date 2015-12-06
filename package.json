@@ -20,7 +20,8 @@
   "readmeFilename": "README.md",
   "scripts": {
     "test": "node ./node_modules/.bin/jshint ./lib/*.js && node ./node_modules/.bin/_mocha --reporter spec",
-    "test-cov": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --"
+    "test-cov": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --",
+    "test-travis": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly --"
   },
   "devDependencies": {
     "istanbul": "^0.4.1",

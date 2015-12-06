@@ -27,6 +27,24 @@ describe('serve', function() {
 			.expect(403, done);
 	});
 
+	it('should 404 when get file not exists', function(done) {
+		const app = new Koa();
+
+		app.use(serve(assets));
+		request(app.listen())
+			.get('/not-exists')
+			.expect(404, done);
+	});
+
+	it('should 404 when get directory', function(done) {
+		const app = new Koa();
+
+		app.use(serve(assets));
+		request(app.listen())
+			.get('/path')
+			.expect(404, done);
+	});
+
 	it('should get dotfiles successful', function(done) {
 		const app = new Koa();
 
@@ -71,67 +89,33 @@ describe('serve', function() {
 			.expect(200, done);
 	});
 
-	// it('should serve js file successful', function(done) {
-	// 	const app = new Koa();
+	it('should has Last-Modified, Content-Type, Content-Length and ETag', function(done) {
+		const app = new Koa();
+		const keys = 'Last-Modified Content-Type Content-Length ETag'.split(' ');
+		app.use(serve(assets));
+		request(app.listen())
+			.get('/test.js')
+			.end(function(err, res) {
+				if (err) {
+					done(err);
+				} else {
+					const headerKeys = Object.keys(res.headers);
+					keys.forEach(function(key) {
+						key = key.toLowerCase();
+						assert(headerKeys.indexOf(key) !== -1);
+					});
+					done();
+				}
+			});
+	});
 
-	// 	app.use(serve(assets, {
-	// 		maxAge: 1000,
-	// 		headers: {
-	// 			Vary: 'Accept-Encoding'
-	// 		}
-	// 	}));
-	// 	request(app.listen())
-	// 		.get('/test.js')
-	// 		.end(function(err, res) {
-	// 			if (err) {
-	// 				done(err);
-	// 			} else {
-	// 				assert.equal(res.status, 200);
-	// 				assert(res.headers.etag);
-	// 				done();
-	// 			}
-	// 		});
-	// });
+
+	it('should deny access file not in root path', function(done) {
+		const app = new Koa();
+		app.use(serve(assets));
+		request(app.listen())
+			.get('/../package.json')
+			.expect(403, done);
+	});
+
 });
-
-
-// var dateRegExp = /^\w{3}, \d+ \w+ \d+ \d+:\d+:\d+ \w+$/;
-// var fixtures = path.join(__dirname, 'fixtures');
-// var app = http.createServer(function(req, res){
-//   function error(err) {
-//     res.statusCode = err.status;
-//     res.end(http.STATUS_CODES[err.status]);
-//   }
-
-//   function redirect() {
-//     res.statusCode = 301;
-//     res.setHeader('Location', req.url + '/');
-//     res.end('Redirecting to ' + req.url + '/');
-//   }
-
-//   send(req, req.url, {root: fixtures})
-//   .on('error', error)
-//   .on('directory', redirect)
-//   .pipe(res);
-// });
-
-// describe('send.mime', function(){
-//   it('should be exposed', function(){
-//     assert(send.mime);
-//   })
-// })
-
-// describe('send(file).pipe(res)', function(){
-//   it('should stream the file contents', function(done){
-// request(app)
-// .get('/name.txt')
-// .expect('Content-Length', '4')
-// .expect(200, 'tobi', done)
-//   })
-
-//   it('should stream a zero-length file', function (done) {
-//     request(app)
-//     .get('/empty.txt')
-//     .expect('Content-Length', '0')
-//     .expect(200, '', done)
-//   })
