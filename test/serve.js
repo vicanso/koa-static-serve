@@ -7,15 +7,46 @@ const serve = require('../lib/serve');
 const assert = require('assert');
 
 describe('serve', function() {
-	it('should serve js file successful', function(done) {
+	it('should 404 when get dotfiles', function(done) {
+		const app = new Koa();
+
+		app.use(serve(assets));
+		request(app.listen())
+			.get('/.dotfile')
+			.expect(404, done);
+	});
+
+	it('should 403 when get dotfiles', function(done) {
 		const app = new Koa();
 
 		app.use(serve(assets, {
-			maxAge: 1000,
-			headers: {
-				Vary: 'Accept-Encoding'
-			}
+			dotfiles: 'deny'
 		}));
+		request(app.listen())
+			.get('/.dotfile')
+			.expect(403, done);
+	});
+
+	it('should get dotfiles successful', function(done) {
+		const app = new Koa();
+
+		app.use(serve(assets, {
+			dotfiles: 'allow'
+		}));
+		request(app.listen())
+			.get('/.dotfile')
+			.expect(200, 'dot file', done);
+	});
+
+	it('should set default headers successful', function(done) {
+		const app = new Koa();
+		const defaultHeaders = {
+			vary: 'Accept-Encoding'
+		};
+		app.use(serve(assets, {
+			headers: defaultHeaders
+		}));
+
 		request(app.listen())
 			.get('/test.js')
 			.end(function(err, res) {
@@ -23,11 +54,44 @@ describe('serve', function() {
 					done(err);
 				} else {
 					assert.equal(res.status, 200);
-					assert(res.headers.etag);
+					Object.keys(defaultHeaders).forEach(function(key) {
+						assert.equal(res.headers[key], defaultHeaders[key]);
+					});
 					done();
 				}
 			});
 	});
+
+	it('should set max-age=0 default', function(done) {
+		const app = new Koa();
+		app.use(serve(assets));
+		request(app.listen())
+			.get('/test.js')
+			.expect('Cache-Control', 'public, max-age=0, s-maxage=0')
+			.expect(200, done);
+	});
+
+	// it('should serve js file successful', function(done) {
+	// 	const app = new Koa();
+
+	// 	app.use(serve(assets, {
+	// 		maxAge: 1000,
+	// 		headers: {
+	// 			Vary: 'Accept-Encoding'
+	// 		}
+	// 	}));
+	// 	request(app.listen())
+	// 		.get('/test.js')
+	// 		.end(function(err, res) {
+	// 			if (err) {
+	// 				done(err);
+	// 			} else {
+	// 				assert.equal(res.status, 200);
+	// 				assert(res.headers.etag);
+	// 				done();
+	// 			}
+	// 		});
+	// });
 });
 
 
