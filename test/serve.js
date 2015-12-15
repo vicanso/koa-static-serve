@@ -118,4 +118,23 @@ describe('serve', function() {
 			.expect(403, done);
 	});
 
+	it('should return content when ctx.status is not 404', done => {
+		const app = new Koa();
+		app.use((ctx, next) => {
+			ctx.body = 'OK';
+			return next();
+		});
+		app.use(serve(assets));
+		request(app.listen())
+			.get('/test.js')
+			.end((err, res) => {
+				if (err) {
+					return done(err);
+				}
+				assert.equal(res.status, 200);
+				assert.equal(res.text, 'OK');
+				done();
+			});
+	});
+
 });
