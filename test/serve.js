@@ -7,7 +7,7 @@ const serve = require('../lib/serve');
 const assert = require('assert');
 
 describe('serve', function() {
-	it('should 404 when get dotfiles', function(done) {
+	it('should 404 when get dotfiles', done => {
 		const app = new Koa();
 
 		app.use(serve(assets));
@@ -16,7 +16,7 @@ describe('serve', function() {
 			.expect(404, done);
 	});
 
-	it('should 403 when get dotfiles', function(done) {
+	it('should 403 when get dotfiles', done => {
 		const app = new Koa();
 
 		app.use(serve(assets, {
@@ -27,7 +27,7 @@ describe('serve', function() {
 			.expect(403, done);
 	});
 
-	it('should 404 when get file not exists', function(done) {
+	it('should 404 when get file not exists', done => {
 		const app = new Koa();
 
 		app.use(serve(assets));
@@ -36,7 +36,7 @@ describe('serve', function() {
 			.expect(404, done);
 	});
 
-	it('should 404 when get directory', function(done) {
+	it('should 404 when get directory', done => {
 		const app = new Koa();
 
 		app.use(serve(assets));
@@ -45,7 +45,7 @@ describe('serve', function() {
 			.expect(404, done);
 	});
 
-	it('should get dotfiles successful', function(done) {
+	it('should get dotfiles successful', done => {
 		const app = new Koa();
 
 		app.use(serve(assets, {
@@ -56,7 +56,7 @@ describe('serve', function() {
 			.expect(200, 'dot file', done);
 	});
 
-	it('should set default headers successful', function(done) {
+	it('should set default headers successful', done => {
 		const app = new Koa();
 		const defaultHeaders = {
 			vary: 'Accept-Encoding'
@@ -67,12 +67,12 @@ describe('serve', function() {
 
 		request(app.listen())
 			.get('/test.js')
-			.end(function(err, res) {
+			.end((err, res) => {
 				if (err) {
 					done(err);
 				} else {
 					assert.equal(res.status, 200);
-					Object.keys(defaultHeaders).forEach(function(key) {
+					Object.keys(defaultHeaders).forEach(key => {
 						assert.equal(res.headers[key], defaultHeaders[key]);
 					});
 					done();
@@ -80,7 +80,7 @@ describe('serve', function() {
 			});
 	});
 
-	it('should set max-age=0 default', function(done) {
+	it('should set max-age=0 default', done => {
 		const app = new Koa();
 		app.use(serve(assets));
 		request(app.listen())
@@ -89,18 +89,18 @@ describe('serve', function() {
 			.expect(200, done);
 	});
 
-	it('should has Last-Modified, Content-Type, Content-Length and ETag', function(done) {
+	it('should has Last-Modified, Content-Type, Content-Length and ETag', done => {
 		const app = new Koa();
 		const keys = 'Last-Modified Content-Type Content-Length ETag'.split(' ');
 		app.use(serve(assets));
 		request(app.listen())
 			.get('/test.js')
-			.end(function(err, res) {
+			.end((err, res) => {
 				if (err) {
 					done(err);
 				} else {
 					const headerKeys = Object.keys(res.headers);
-					keys.forEach(function(key) {
+					keys.forEach(key => {
 						key = key.toLowerCase();
 						assert(headerKeys.indexOf(key) !== -1);
 					});
@@ -110,7 +110,7 @@ describe('serve', function() {
 	});
 
 
-	it('should deny access file not in root path', function(done) {
+	it('should deny access file not in root path', done => {
 		const app = new Koa();
 		app.use(serve(assets));
 		request(app.listen())
@@ -133,6 +133,23 @@ describe('serve', function() {
 				}
 				assert.equal(res.status, 200);
 				assert.equal(res.text, 'OK');
+				done();
+			});
+	});
+
+
+	it('should deny access file with query string', done => {
+		const app = new Koa();
+		app.use(serve(assets, {
+			denyQuerystring: true
+		}));
+		request(app.listen())
+			.get('/test.js?a=123')
+			.end((err, res) => {
+				if (err) {
+					return done(err);
+				}
+				assert.equal(res.status, 403);
 				done();
 			});
 	});
