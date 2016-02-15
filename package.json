@@ -1,7 +1,7 @@
 {
   "name": "koa-static-serve",
   "description": "static serve middlware for koa",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "author": {
     "name": "vicanso 小墨鱼",
     "email": "vicansocanbico@gmail.com"
@@ -16,6 +16,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/vicanso/koa-static-serve.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vicanso/koa-static-serve/issues",
+    "email": "vicansocanbico@gmail.com"
   },
   "readmeFilename": "README.md",
   "scripts": {
