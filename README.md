@@ -1,5 +1,18 @@
 # static serve middlware for koa
 
+[![Build Status](https://travis-ci.org/vicanso/koa-static-serve.svg?style=flat-square)](https://travis-ci.org/vicanso/koa-static-serve)
+[![Coverage Status](https://img.shields.io/coveralls/vicanso/koa-static-serve/master.svg?style=flat)](https://coveralls.io/r/vicanso/koa-static-serve?branch=master)
+[![npm](http://img.shields.io/npm/v/koa-static-serve.svg?style=flat-square)](https://www.npmjs.org/package/koa-static-serve)
+[![Github Releases](https://img.shields.io/npm/dm/koa-static-serve.svg?style=flat-square)](https://github.com/vicanso/koa-static-serve)
+
+## Installation
+
+```bash
+$ npm i koa-static-serve
+```
+
+
+
 ## API
 
 serve(staticPath, options)
@@ -28,7 +41,9 @@ console.dir('server listen on:' + port);
 
 - `dotfiles` dot file access permission, it can be 'allow', 'deny', 'ignore'. Default is 'ignore'
 
-- `denyQuerystring` deny query string, default is false
+- `denyQuerystring` deny query string, default is `false`. If using a http cache server(varnish) for the static files, query string should be denied. 
+
+- `charset` default content charset
 
 
 ## License
