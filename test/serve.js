@@ -93,6 +93,18 @@ describe('serve', function() {
       .expect(200, done);
   });
 
+  it('should set custom s-maxage', done => {
+    const app = new Koa();
+    app.use(serve(assets, {
+      maxAge: 300,
+      sMaxAge: 30,
+    }));
+    request(app.listen())
+      .get('/test.js')
+      .expect('Cache-Control', 'public, max-age=300, s-maxage=30')
+      .expect(200, done);
+  });
+
   it('should has Last-Modified, Content-Type, Content-Length and ETag', done => {
     const app = new Koa();
     const keys = 'Last-Modified Content-Type Content-Length ETag'.split(' ');
@@ -108,6 +120,40 @@ describe('serve', function() {
             key = key.toLowerCase();
             assert(headerKeys.indexOf(key) !== -1);
           });
+          done();
+        }
+      });
+  });
+
+  it('should disable ETag', done => {
+    const app = new Koa();
+    app.use(serve(assets, {
+      disableEtag: true,
+    }));
+    request(app.listen())
+      .get('/test.js')
+      .end((err, res) => {
+        if (err) {
+          done(err);
+        } else {
+          assert(!res.get('ETag'));
+          done();
+        }
+      });
+  });
+
+  it('should disable Last-Modified', done => {
+    const app = new Koa();
+    app.use(serve(assets, {
+      disableLastModified: true,
+    }));
+    request(app.listen())
+      .get('/test.js')
+      .end((err, res) => {
+        if (err) {
+          done(err);
+        } else {
+          assert(!res.get('Last-Modified'));
           done();
         }
       });
