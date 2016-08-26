@@ -5,7 +5,7 @@
 [![npm](http://img.shields.io/npm/v/koa-static-serve.svg?style=flat-square)](https://www.npmjs.org/package/koa-static-serve)
 [![Github Releases](https://img.shields.io/npm/dm/koa-static-serve.svg?style=flat-square)](https://github.com/vicanso/koa-static-serve)
 
-- `ETag` The modules use weak etag, which is derived from last-modified time and file length. The version number is inserted in file name normally(eg. angular.1183712.js), so ETag can be disabled.
+- `ETag` The module use weak etag, which is derived from last-modified time and file length. The version number is inserted in file name normally(eg. angular.1183712.js), so ETag can be disabled.
 
 - `Last-Modified` As above.
 
