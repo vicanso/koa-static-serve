@@ -55,6 +55,8 @@ console.dir('server listen on:' + port);
 
 - `disableLastModified` disable last-modified header
 
+- `404` set not found handler. If set 'next', it will call next when not found, otherwise will throw an error (404).
+
 ## License
 
 MIT

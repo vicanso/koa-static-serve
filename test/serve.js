@@ -36,6 +36,21 @@ describe('serve', function() {
       .expect(404, done);
   });
 
+  it('should go next whe get file not exists', done => {
+    const app = new Koa();
+
+    app.use(serve(assets, {
+      '404': 'next',
+    }));
+
+    app.use(ctx => {
+      ctx.body = null;
+    });
+    request(app.listen())
+      .get('/not-exists')
+      .expect(204, done);
+  });
+
   it('should 404 when get directory', done => {
     const app = new Koa();
 
