@@ -15,7 +15,9 @@
 $ npm i koa-static-serve
 ```
 
-
+## Examples
+  
+View the [./examples](examples) directory for working examples. 
 
 ## API
 
@@ -28,7 +30,16 @@ const app = new Koa();
 const serve = require('koa-static-serve');
 const staticPath = path.join(__dirname, '..');
 app.use(serve(staticPath, {
-  maxAge : 600
+  maxAge: 3600,
+  sMaxAge: 600,
+  headers: {
+    'X-Server': 'koa-static-serve',
+  },
+  dotfiles: 'allow',
+  denyQuerystring: true,
+  disableETag: true,
+  disableLastModified: true,
+  '404': 'next',
 }));
 const port = process.env.PORT || 10000;
 app.listen(port);
@@ -51,7 +62,7 @@ console.dir('server listen on:' + port);
 
 - `charset` default content charset
 
-- `disableEtag` disable etag header
+- `disableETag` disable etag header
 
 - `disableLastModified` disable last-modified header
 

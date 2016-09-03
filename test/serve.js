@@ -143,7 +143,7 @@ describe('serve', function() {
   it('should disable ETag', done => {
     const app = new Koa();
     app.use(serve(assets, {
-      disableEtag: true,
+      disableETag: true,
     }));
     request(app.listen())
       .get('/test.js')
