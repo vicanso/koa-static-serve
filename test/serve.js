@@ -140,6 +140,52 @@ describe('serve', function() {
       });
   });
 
+  it('should response 304 when has "If-None-Match" header', done => {
+    const app = new Koa();
+    app.use(serve(assets));
+    const server = app.listen();
+    request(server)
+      .get('/test.js')
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        request(server)
+          .get('/test.js')
+          .set('If-None-Match', res.get('ETag'))
+          .end((err, res) => {
+            if (err) {
+              return done(err);
+            }
+            assert.equal(res.status, 304);
+            done();
+          });
+      });
+  });
+
+  it('should response 304 when has "If-Modified-Since" header', done => {
+    const app = new Koa();
+    app.use(serve(assets));
+    const server = app.listen();
+    request(server)
+      .get('/test.js')
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        request(server)
+          .get('/test.js')
+          .set('If-Modified-Since', res.get('Last-Modified'))
+          .end((err, res) => {
+            if (err) {
+              return done(err);
+            }
+            assert.equal(res.status, 304);
+            done();
+          });
+      });
+  });
+
   it('should disable ETag', done => {
     const app = new Koa();
     app.use(serve(assets, {
