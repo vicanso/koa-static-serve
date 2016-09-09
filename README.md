@@ -37,8 +37,8 @@ app.use(serve(staticPath, {
   },
   dotfiles: 'allow',
   denyQuerystring: true,
-  disableETag: true,
-  disableLastModified: true,
+  etag: false,
+  lastModified: false,
   '404': 'next',
 }));
 const port = process.env.PORT || 10000;
@@ -50,23 +50,23 @@ console.dir('server listen on:' + port);
 
 ### options
 
-- `maxAge` static file's http response header, Cache-Control max-age
+- `maxAge` Static file's http response header, Cache-Control max-age, default is 0.
 
-- `sMaxAge` static file's http response header, Cache-Control s-maxage for cache application(eg. varnish)
+- `sMaxAge` Static file's http response header, Cache-Control s-maxage for cache application(eg. varnish). If not set, it will be Math.min(3600, maxAge).
 
-- `headers` default header
+- `headers` The default header.
 
-- `dotfiles` dot file access permission, it can be 'allow', 'deny', 'ignore'. Default is 'ignore'
+- `dotfiles` Dot file access permission, it can be 'allow', 'deny', 'ignore'. Default is 'ignore'.
 
-- `denyQuerystring` deny query string, default is `false`. If using a http cache server(varnish) for the static files, query string should be denied. 
+- `denyQuerystring` Deny query string, default is `false`. If using a http cache server(varnish) for the static files, query string should be denied. Otherwise there will be different cache for the same file.
 
-- `charset` default content charset
+- `charset` Default content charset.
 
-- `disableETag` disable etag header
+- `etag` Enable or disable etag generation, default is true.
 
-- `disableLastModified` disable last-modified header
+- `lastModified` Set the Last-Modified header to the last modified date of the file on the OS, default is true.
 
-- `404` set not found handler. If set 'next', it will call next when not found, otherwise will throw an error (404).
+- `404` Set not found handler. If set 'next', it will call next when not found, otherwise will throw an error (404).
 
 ## License
 

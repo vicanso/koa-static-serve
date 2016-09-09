@@ -189,7 +189,7 @@ describe('serve', function() {
   it('should disable ETag', done => {
     const app = new Koa();
     app.use(serve(assets, {
-      disableETag: true,
+      etag: false,
     }));
     request(app.listen())
       .get('/test.js')
@@ -206,7 +206,7 @@ describe('serve', function() {
   it('should disable Last-Modified', done => {
     const app = new Koa();
     app.use(serve(assets, {
-      disableLastModified: true,
+      lastModified: false,
     }));
     request(app.listen())
       .get('/test.js')

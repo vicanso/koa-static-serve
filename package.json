@@ -1,7 +1,7 @@
 {
   "name": "koa-static-serve",
   "description": "static serve middlware for koa",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "author": "Tree Xie <vicansocanbico@gmail.com>",
   "keywords": [
     "koa",

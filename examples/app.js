@@ -11,8 +11,8 @@ app.use(serve(staticPath, {
   },
   dotfiles: 'allow',
   denyQuerystring: true,
-  disableETag: true,
-  disableLastModified: true,
+  etag: false,
+  lastModified: false,
   '404': 'next',
 }));
 const port = process.env.PORT || 10000;
