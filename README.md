@@ -40,6 +40,7 @@ app.use(serve(staticPath, {
   etag: false,
   lastModified: false,
   '404': 'next',
+  extname: ['.html'],
 }));
 const port = process.env.PORT || 10000;
 app.listen(port);
@@ -67,6 +68,8 @@ console.dir('server listen on:' + port);
 - `lastModified` Set the Last-Modified header to the last modified date of the file on the OS, default is true.
 
 - `404` Set not found handler. If set 'next', it will call next when not found, otherwise will throw an error (404).
+
+- `extname` Set default extname.
 
 ## License
 

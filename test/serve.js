@@ -36,7 +36,7 @@ describe('serve', function() {
       .expect(404, done);
   });
 
-  it('should go next whe get file not exists', done => {
+  it('should go next when get file not exists', done => {
     const app = new Koa();
 
     app.use(serve(assets, {
@@ -58,6 +58,15 @@ describe('serve', function() {
     request(app.listen())
       .get('/path')
       .expect(404, done);
+  });
+
+  it('should add default ext successful', done => {
+    const app = new Koa();
+
+    app.use(serve(assets));
+    request(app.listen())
+      .get('/index')
+      .expect(200, done);
   });
 
   it('should get dotfiles successful', done => {
