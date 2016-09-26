@@ -63,7 +63,9 @@ describe('serve', function() {
   it('should add default ext successful', done => {
     const app = new Koa();
 
-    app.use(serve(assets));
+    app.use(serve(assets, {
+      extname: ['.html'],
+    }));
     request(app.listen())
       .get('/index')
       .expect(200, done);
